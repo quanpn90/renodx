@@ -76,6 +76,7 @@ void main(
   }
   r0.xyz = cb0[128].www * r0.xyz;
   r1.rgb = applyUserTonemap(r0.rgb);
+
   if (cb0[129].w > 0) {
     r0.xyz = renodx::color::srgb::Encode(r1.xyz);
     r2.xyz = cb0[129].zzz * r0.zxy;
@@ -95,25 +96,26 @@ void main(
     r0.xyz = cb0[129].www * r2.xyz + r0.xyz;
     r1.xyz = renodx::color::srgb::Decode(r0.xyz);
   }
+  
   float3 preLUT = r1.rgb;
   if (injectedData.colorGradeLUTStrength > 0.f) {
     if (injectedData.toneMapType != 0.f) {
       r1.rgb = lutShaper(r1.rgb);
     }
     if (injectedData.colorGradeLUTSampling == 0.f) {
-  r0.xyz = cb0[128].zzz * r1.zxy;
-  r0.x = floor(r0.x);
-  r1.xy = float2(0.5, 0.5) * cb0[128].xy;
-  r2.yz = r0.yz * cb0[128].xy + r1.xy;
-  r2.x = r0.x * cb0[128].y + r2.y;
-  r3.xyzw = t2.SampleLevel(s0_s, r2.xz, 0).xyzw;
-  r1.x = cb0[128].y;
-  r1.y = 0;
-  r0.yz = r2.xz + r1.xy;
-  r2.xyzw = t2.SampleLevel(s0_s, r0.yz, 0).xyzw;
-  r0.x = r1.z * cb0[128].z + -r0.x;
-  r0.yzw = r2.xyz + -r3.xyz;
-  r1.xyz = r0.xxx * r0.yzw + r3.xyz;
+      r0.xyz = cb0[128].zzz * r1.zxy;
+      r0.x = floor(r0.x);
+      r1.xy = float2(0.5, 0.5) * cb0[128].xy;
+      r2.yz = r0.yz * cb0[128].xy + r1.xy;
+      r2.x = r0.x * cb0[128].y + r2.y;
+      r3.xyzw = t2.SampleLevel(s0_s, r2.xz, 0).xyzw;
+      r1.x = cb0[128].y;
+      r1.y = 0;
+      r0.yz = r2.xz + r1.xy;
+      r2.xyzw = t2.SampleLevel(s0_s, r0.yz, 0).xyzw;
+      r0.x = r1.z * cb0[128].z + -r0.x;
+      r0.yzw = r2.xyz + -r3.xyz;
+      r1.xyz = r0.xxx * r0.yzw + r3.xyz;
     } else {
       r1.xyz = renodx::lut::SampleTetrahedral(t2, r1.rgb, cb0[128].z + 1u);
     }

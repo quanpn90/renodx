@@ -152,6 +152,7 @@ DICESettings DefaultDICESettings() {
 // already been multiplied in.
 float3 DICETonemap(float3 Color, float PeakWhite,
                    const DICESettings Settings /*= DefaultDICESettings()*/) {
+                    
   const float sourceLuminance = renodx::color::y::from::BT709(Color);
 
   if (Settings.Type != DICE_TYPE_BY_LUMINANCE_RGB) {

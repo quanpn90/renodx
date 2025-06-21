@@ -24,6 +24,7 @@ void main(
   uint4 bitmask, uiDest;
   float4 fDest;
 
+  //  GetLutStripValue 
   r0.yz = -cb0[128].yz + v1.xy;
   r1.x = cb0[128].x * r0.y;
   r0.x = frac(r1.x);
@@ -197,6 +198,7 @@ void main(
     r0.a = 1 + r0.a;
     r0.a = rcp(r0.a);
     r0.rgb = input * r0.aaa;
+    // r0.rgb = renodx::tonemap::Reinhard(input);
   }
   r0.xyz = float3(0.00390625,0.00390625,0.00390625) + r0.xyz;
   r0.w = 0;
